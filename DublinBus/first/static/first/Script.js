@@ -5,7 +5,12 @@ function load() {
     var travelroute = document.getElementById('item_id').value
     var weather = document.getElementById('weather_id').value
     var traveltime = document.getElementById('traveltime').value
-	var url =  "getResult?travelroute="+ travelroute + "&traveltime=" + encodeURIComponent(traveltime) + "&weather=" + weather;
+
+    var direction = document.getElementById('direction').value
+    var from_stop = document.getElementById('fromSelect').value
+    var to_stop = document.getElementById('toSelect').value
+
+	var url =  "getResult?travelroute="+ travelroute + "&traveltime=" + encodeURIComponent(traveltime) + "&weather=" + weather + "&direction=" + direction + "&from=" + from_stop + "&to=" + to_stop;
 
                 
     xmlhttp.onreadystatechange = function () {

@@ -39,6 +39,9 @@ def getResult(request):
     in_route=request.GET.get('travelroute')
     in_time=request.GET.get('traveltime')
     in_weather=request.GET.get('weather')
+    in_direction=request.GET.get('direction')
+    in_from=request.GET.get('from')
+    in_to=request.GET.get('to')
     
     print("WEBSITE WEATHER", in_weather)
 
@@ -75,10 +78,11 @@ def getResult(request):
     #averagemins = average/60
     #averagemins = str(round(averagemins, 2))
     
-    filename = 'first/static/first/SingleRF_Rev2.mdl'
+    filename = 'first/static/first/RFBR1_v0.1.mdl'
     RFMODEL = joblib.load(filename)
-    test = pd.read_csv('\\...path\SingleTest.csv')
-    pred = RFmodel.predict(test)
+    test = pd.read_csv('first/static/first/SingleTest.csv')
+    pred = RFMODEL.predict(test)
+    print("this is a prediction TEST", pred)
     
     
     #filename = 'first/static/first/final.json'
