@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'first'
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,12 +76,20 @@ WSGI_APPLICATION = 'DublinBus.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+'default': {
+       'ENGINE': 'django.db.backends.mysql',
+       'NAME': 'DublinBus',
+       'USER': 'root',
+       'PASSWORD': 'Lemongra55!',
+       'HOST': 'localhost',
+       'PORT': '3306'
     }
 }
+
+
+
 
 
 # Password validation
@@ -118,3 +129,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = 'DublinBus/first/static/first/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR,),
+    )

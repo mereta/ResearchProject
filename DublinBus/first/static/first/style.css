@@ -1,0 +1,243 @@
+@media only screen 
+and (min-device-width: 01px)
+ {
+     
+body {
+    background-color: whitesmoke;
+    font-size: 13px;
+    font-family: "arial", "sans-serif";
+    color: black;
+}
+#outter{
+    background-image: url('static/first/header1jpg.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    border-radius: 25px;
+         
+    max-width: 1300px;
+    margin: auto;
+}
+h1{
+    color: darkslategray;
+    font-size: 45px;
+    text-align: left;
+    opacity: 0.8;
+    font-weight: normal;
+    margin: 0px;
+    margin-left: px;
+}
+h2{
+    color: darkslategray;
+    font-size: 30px;
+    text-align: left;
+    font-weight: normal;
+    margin: 0px;
+    margin-top: 10px;
+    
+}
+h3{
+    color: black;
+    font-size: 20px;
+    text-align: left;
+    font-weight: normal;
+    margin: 0px;
+    margin-top: 10px;
+}
+
+h4{
+   color: black;
+    font-size: 15px;
+    font-weight: bolder;
+    margin: 0px;
+
+    
+     }
+a {
+   color: black;
+    text-decoration: none;
+}
+a:hover {
+   color: darkorange;
+}
+
+#head{
+    margin-left: 50px; 
+    padding: 20px;
+     }
+
+
+/* header image, using background as image rather than image onject. As per demo website from class. ##################*/
+#headerimage{
+    height: 1200px;
+    border-radius: 25px;
+    clear:both;
+}
+
+#weather{
+   
+
+    height: auto;
+    width:1000px;
+  
+          }
+     #weather table{
+         margin-bottom: 20px;
+         height: 200px;
+         width: 200px;
+     }
+/*content ###############################################*/
+#content{
+    float:left; 
+    display:block;  
+}
+
+#content ul{ /* list of contentintro1/2/3 boxes*/
+    float: left;
+    list-style: none;
+    padding: 0;
+}
+
+#leftcontent{ /* weather form*/
+    float: left;
+    padding-right: 10px;
+    height: auto;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    border: 2px solid;
+    border-color: azure;
+    background-color: rgba(216, 189, 169, 0.85);
+    
+}
+
+#leftcontent1{ /* weather form*/
+    float: left;
+    font-size: 20px;
+    height: 250px;
+    width: 250px;
+    padding-left: 40px;
+    padding-top: 40px;
+    
+    border-radius: 25px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    border: 2px solid;
+    border-color: azure;
+    background-color: rgba(216, 189, 169, 0.85);
+    
+}
+     
+#text{
+    float:left;
+    width:50px;
+    
+    
+     }
+
+.scrollable{
+   overflow: auto;
+   width: 200px; /* adjust this width depending to amount of text to display */
+   height: 80px; /* adjust height depending on number of options to display */
+ 
+ }
+.scrollable select{
+   border: none;
+ }
+ 
+
+#leftcontent select {
+
+	overflow-y: scroll;
+}
+
+
+#leftcontent button{
+    border-radius: 5px;
+    float:right;
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    height: 22px;
+    background-color: lightgrey;
+         
+     }
+#content #weather table img{ /* weather icon*/
+    width: 65px;
+    height: 65px;
+     }
+#content article p{
+    text-align: left;
+}
+
+
+#content article{ /* Article container*/
+    float:left;
+    width: 700px;
+      
+}
+#content #weather table{     /* weather table boxes */
+    width: 170px;
+    border-radius: 25px;
+    padding: 10px;
+    opacity: 0.85;
+    float: left;
+    margin-left: 15px;
+    border: 2px solid;
+    border-color: azure;
+    background-color: rgba(216, 189, 169, 1.0);
+    
+}
+#content #detailed table{     /* weather table boxes */
+    width: 800px;
+    border-radius: 25px;
+    padding: 10px;
+    opacity: 0.9;
+    float: left;
+    margin-left: 20px;
+    margin-bottom: 30px;
+    border: 2px solid;
+    border-color: azure;
+    background-color: rgba(216, 189, 169, 1.0);
+    
+}
+     
+#content #detailed table th{     
+    font-weight: bold;
+    text-align: left;
+    
+}
+#content article table button{
+    background-color: lightgray;
+    border-radius: 5px;
+    float:right;
+    margin-right: 7px;
+    margin-top: 10px;
+    height: 20px;
+}
+
+     
+ #map{
+    
+width:300px
+     }
+     
+     
+
+/*footer#################################*/
+footer{
+    float:left;
+    clear:both;
+    background-color: lightgrey;
+    border-radius: 15px;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 10px;
+}
+footer p{
+    margin-top: 10px;
+    text-align: right;
+    padding-right: 10px;
+     }
+}

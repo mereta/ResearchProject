@@ -1,0 +1,412 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        {% load staticfiles %}
+
+        {% block styles %}
+        <link rel="stylesheet" href="{% static 'first/style.css' %}">
+        <link rel="stylesheet" href="{% static 'first/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'first/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'first/bootstrap-theme.css' %}">
+        <link rel="stylesheet" href="{% static 'first/bootstrap-theme.min.css' %}">
+        <script type="text/javascript" src="{% static 'first/Script.js' %}"></script>
+        <script type="text/javascript" src="{% static 'first/bootstrap.js' %}"></script>
+        <script type="text/javascript" src="{% static 'first/bootstrap.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'first/currentWeather.js' %}"></script>
+        {% endblock %}
+
+        <script src="http://code.jquery.com/jquery-latest.min.js"
+                type="text/javascript"></script>
+
+        <link rel="stylesheet" href="https://unpkg.com/flatpickr/dist/flatpickr.min.css">
+        <script src="https://unpkg.com/flatpickr"></script>
+
+
+        <!--<link rel="stylesheet" media="screen and (max-width: 700px)" type="text/css" href="css/stylemobile.css">-->
+        <title>Journey Predictor</title>
+    </head>
+    <body>
+
+        <div id="outter"> <!--Overall defined width in 'outter' -->
+            <header>
+
+            </header>
+            <div class="container">
+                <!-- <div id="headerimage">-->
+                <div id=head>
+                    <h1>Dublin Bus Journey Calculator</h1>
+                    <h3> Choose your preferred journey options below.</h3>
+                </div>
+
+                <!--<div id="content"> -->
+                <!--<div id="leftcontent"> -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="leftcontent">
+                            <h2>Journey Details</h2>
+
+                            <br>
+                            <div class="dropdown">
+                                <select id="direction" name="direction_id">
+                                    <option value="Directon">Direction</option>
+                                    <option value="O">Outbound</option>
+                                    <option value="I">Inbound</option>
+                                </select>
+
+                            </div>
+                            <br><br>
+
+                            <div class="dropdown">
+                                <select class="item_id" id="item_id" name="item_id" label="Route">
+                                    <option value="Route">Select Route</option>
+                                    {% for entry in routeLists %}
+                                    <option value="{{ entry }}">{{ entry }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <select id="fromSelect" name="fromSelect" class="fromSelect" style="display:none;">  </select>
+                            <select id="toSelect" name="toSelect" class="toSelect" style="display:none;">     </select>
+                            <br><br>
+
+                            <input id="traveltime" value="Select Date & Time"></input>
+                        <script >flatpickr("#traveltime", {enableTime: true});</script>  
+                        <br><br>
+                        <div class="dropdown">
+                            <select id="weather_id" name="weather_id">
+                                <option value="Weather">Weather</option>
+                                <option value="Dry">Dry</option>
+                                <option value="Wet">Wet</option>
+                            </select>
+
+                        </div>
+                        <br><br>
+
+                        <button id="btnsubmit" onclick="load();return false">Submit</button>
+
+                        <br><br>
+
+                        <div id='average'></div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div id="leftcontent1">
+                        <div class="box" id="currentWeather"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div id="map-canvas" style="height:500px;border:3px solid;border-color:aliceblue;margin-right:20px;margin-left:30px"></div>
+                    <div id="map"></div>
+                    <script>
+                        var map;
+                        function initMap() {
+                            map = new google.maps.Map(document.getElementById('map-canvas'), {
+                                center: {lat: 53.3498, lng: -6.2603},
+                                zoom: 13
+                            });
+                        }
+                    </script>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMuxy_q8JTSYXpgAYbZ8v8tyx8n0xjlX8&callback=initMap"
+                            async defer></script>
+                </div>
+                <div class="col-sm-4">
+                    <a class="twitter-timeline" data-height="500" href="https://twitter.com/aaroadwatch">Tweets by AA Road Watch</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+
+
+
+                <br><br><br>
+
+
+            </div>
+        </div>
+
+
+        <script>
+            $( ".item_id" ).change(function() {
+
+
+                //get daily JSON file code ref: Practical Solutions class notes
+                var xmlhttp = new XMLHttpRequest();
+                var travelroute = document.getElementById('item_id').value
+                var direction = document.getElementById('direction').value
+
+                var url = "getStops?travelroute="+ travelroute + "&direction=" + direction;
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+
+                        removeOptions(document.getElementById("fromSelect"));
+                        removeOptions(document.getElementById("toSelect"));
+
+                        //Parse the JSON data to a JavaScript variable
+                        var parsedObj = xmlhttp.responseText;
+
+                        var b = JSON.parse(parsedObj);
+
+
+                        var from = document.getElementById("fromSelect");
+                        //var to = document.getElementById("toSelect");
+                        var defaultfrom = document.createElement("option");
+                        //var defaultto = document.createElement("option");       
+                        defaultfrom.text = "From:";
+                        defaultfrom.value = 0;
+                        //defaultto.text = "To:";
+                        //defaultto.value = 0;
+                        from.add(defaultfrom);
+                        //to.add(defaultto);
+
+                        var map = new google.maps.Map(document.getElementById('map-canvas'), {
+                            center: {
+                                lat: 53.3498,
+                                lng: -6.2603
+                            },
+                            zoom: 13
+                        });
+
+                        for (var i = 0; i < b.length; i++){
+                            var pk = (b[i].pk);
+                            var loc = (b[i]["fields"].location);
+                            var lat = (b[i]["fields"].lat);
+                            var lng = (b[i]["fields"].lng);
+                            var contentString = '<b>Location: </b>' + (b[i]["fields"].address) + '<br><b>Stop ID: </b>' + (b[i]["fields"].stop_id);
+                            var myinfo = new google.maps.InfoWindow({
+                                content: contentString
+                            });
+
+
+
+                            var marker = new google.maps.Marker({
+                                map: map,
+                                infowindow: myinfo,
+                                position: {
+                                    lat: lat,
+                                    lng: lng
+                                }
+
+                            });
+
+
+
+                            google.maps.event.addListener(marker, 'click', function() {
+                                this.infowindow.open(map, this);
+                            });
+
+                            var optionfrom = document.createElement("option");
+                            //var optionto = document.createElement("option");
+                            optionfrom.text = loc;
+                            optionfrom.value = pk;
+                            //optionto.text = loc;
+                            //optionto.value = pk;
+
+                            from.add(optionfrom);
+                            //to.add(optionto);
+                            //document.getElementById("toSelect").style.display = "block";
+                            document.getElementById("fromSelect").style.display = "block";
+
+
+
+
+                        }
+
+
+                    }
+                };
+
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+
+
+
+
+            });
+
+            $( ".fromSelect" ).change(function() {
+
+
+                //get daily JSON file code ref: Practical Solutions class notes
+                var xmlhttp = new XMLHttpRequest();
+                var travelroute = document.getElementById('item_id').value
+                var direction = document.getElementById('direction').value
+                var from_stop = document.getElementById('fromSelect').value
+
+                var url = "getToStops?travelroute="+ travelroute + "&direction=" + direction + "&from=" + from_stop;
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+
+                        //removeOptions(document.getElementById("fromSelect"));
+                        removeOptions(document.getElementById("toSelect"));
+
+                        //Parse the JSON data to a JavaScript variable
+                        var parsedObj = xmlhttp.responseText;
+
+                        var b = JSON.parse(parsedObj);
+
+                        //var from = document.getElementById("fromSelect");
+                        var to = document.getElementById("toSelect");
+                        //var defaultfrom = document.createElement("option");
+                        var defaultto = document.createElement("option");       
+                        //defaultfrom.text = "From:";
+                        //defaultfrom.value = 0;
+                        defaultto.text = "TO";
+                        defaultto.value = 0;
+                        //from.add(defaultfrom);
+                        to.add(defaultto);
+
+
+                        for (var i = 0; i < b.length; i++){
+                            var pk = (b[i].pk);
+                            var loc = (b[i]["fields"].location);
+
+                            //var optionfrom = document.createElement("option");
+                            var optionto = document.createElement("option");
+                            //optionfrom.text = loc;
+                            //optionfrom.value = pk;
+                            optionto.text = loc;
+                            optionto.value = pk;
+
+                            //from.add(optionfrom);
+                            to.add(optionto);
+                            document.getElementById("toSelect").style.display = "block";
+                            //document.getElementById("fromSelect").style.display = "block";
+                        }
+
+
+                    }
+                };
+
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+
+
+
+
+            });
+
+            $( ".toSelect" ).change(function() {
+                var xmlhttp = new XMLHttpRequest();
+                var travelroute = document.getElementById('item_id').value
+                var direction = document.getElementById('direction').value
+                var from_stop = document.getElementById('fromSelect').value
+                var to_stop = document.getElementById('toSelect').value
+
+                var url = "getStopInt?travelroute="+ travelroute + "&direction=" + direction + "&from=" + from_stop + "&to=" + to_stop;
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                        var parsedObj = xmlhttp.responseText;
+
+                        var b = JSON.parse(parsedObj);
+
+
+                        var map = new google.maps.Map(document.getElementById('map-canvas'), {
+                            center: {
+                                lat: b[0]["fields"].lat,
+                                lng: b[0]["fields"].lng
+                            },
+                            zoom: 13
+                        });
+
+                        var arr = [];
+						
+                        for (var i = 0; i < b.length; i++){
+                            
+                            var pk = (b[i].pk);
+                            var loc = (b[i]["fields"].location);
+                            var lat = (b[i]["fields"].lat);
+                            var lng = (b[i]["fields"].lng);
+                            var contentString = '<b>Location: </b>' + (b[i]["fields"].address) + '<br><b>Stop ID: </b>' + (b[i]["fields"].stop_id);
+                            var myinfo = new google.maps.InfoWindow({
+                                content: contentString
+                            });
+                            arr.push({
+                                location: new google.maps.LatLng(lat, lng),
+                                stopover: false
+                            });
+
+
+
+
+                            var marker = new google.maps.Marker({
+                                map: map,
+                                infowindow: myinfo,
+                                position: {
+                                    lat: lat,
+                                    lng: lng
+                                }
+
+                            });
+
+
+
+                            google.maps.event.addListener(marker, 'click', function() {
+                                this.infowindow.open(map, this);
+                            });     
+                           
+
+                        }
+                    
+                        var balh = "";
+ 						var directionsDisplay;
+  						var directionsService = new google.maps.DirectionsService();
+   						directionsDisplay = new google.maps.DirectionsRenderer();
+    					directionsDisplay.setMap(map);
+                        var start = new google.maps.LatLng(b[0]["fields"].lat, b[0]["fields"].lng);
+
+                        var end = new google.maps.LatLng(b[b.length-1]["fields"].lat, b[b.length-1]["fields"].lng);
+                        var request = {
+                            origin: start,
+                            destination: end,
+                            provideRouteAlternatives: true,
+                            //waypoints: arr,
+
+                            travelMode: google.maps.TravelMode.TRANSIT,
+
+                        };
+                        directionsService.route(request, function(response, status) {
+                            if (status == google.maps.DirectionsStatus.OK) {
+                                directionsDisplay.setDirections(response);
+                                directionsDisplay.setMap(map);
+                                
+                            } else {
+                                alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
+                            }
+                        });
+                        
+                        
+                        
+                    }
+                };
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            });
+
+
+
+
+
+            function removeOptions(selectbox)
+            {
+                var i;
+                for(i = selectbox.options.length - 1 ; i >= 0 ; i--)
+                {
+                    selectbox.remove(i);
+                }
+            }
+
+        </script> 
+        <!-- </div> -->
+
+        <footer><p>Sync or Swim</p></footer>
+        </div>
+    </body>
+</html>
