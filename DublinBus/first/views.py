@@ -78,11 +78,11 @@ def getResult(request):
     #averagemins = average/60
     #averagemins = str(round(averagemins, 2))
     
-    filename = 'first/static/first/RFBR1_v0.1.mdl'
-    RFMODEL = joblib.load(filename)
-    test = pd.read_csv('first/static/first/SingleTest.csv')
-    pred = RFMODEL.predict(test)
-    print("this is a prediction TEST", pred)
+    #filename = 'first/static/first/RFBR1_v0.1.mdl'
+    #RFMODEL = joblib.load(filename)
+    #test = pd.read_csv('first/static/first/SingleTest.csv')
+    #pred = RFMODEL.predict(test)
+    #print("this is a prediction TEST", pred)
     
     
     #filename = 'first/static/first/final.json'
