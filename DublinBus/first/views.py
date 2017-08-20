@@ -11,6 +11,7 @@ from sklearn.externals import joblib
 from sklearn.ensemble import RandomForestRegressor
 from flask_googlemaps import GoogleMaps, Map
 from django.core import serializers
+import csv
 
 
 # Create your views here.
@@ -44,22 +45,37 @@ def getResult(request):
     in_to=request.GET.get('to')
     
     print("WEBSITE WEATHER", in_weather)
+    if in_weather == "Wet":
+        in_weather = 1
+    else:
+        in_weather = 0 
 
     
     #get day of week string
-    strweek_day = datetime.datetime.strptime(in_time, '%Y-%m-%d %H:%M').strftime('%A')
+    strweek_day = datetime.datetime.strptime(in_time, '%Y-%m-%d %H:%M').strftime('%w')
     #get time string
     strtime = datetime.datetime.strptime(in_time, '%Y-%m-%d %H:%M').strftime('%H:%M')
+    strtimehour = datetime.datetime.strptime(in_time, '%Y-%m-%d %H:%M').strftime('%H')
+    strtimemin = datetime.datetime.strptime(in_time, '%Y-%m-%d %H:%M').strftime('%M')
+    strtimemin =float(strtimemin)/60
+    strtimemin = str(strtimemin).replace("0.", "")
+
+    
+    time = str(strtimehour) + "." + str(strtimemin)
+    print(str(strtimehour))
+    print(str(strtimemin))
+    print(time)
+    
     #get time date object
-    time = datetime.datetime.strptime(in_time, '%Y-%m-%d %H:%M')
+    #time = datetime.datetime.strptime(in_time, '%Y-%m-%d %H:%M')
    
   
     # create date difference to give us two times - one 5 mins before selected time, one 5 minutes after.
     # this time frame will be queried
     
-    diff = timedelta(minutes=5)
-    mintime = time - diff
-    maxtime = time + diff
+    #diff = timedelta(minutes=5)
+    #mintime = time - diff
+    #maxtime = time + diff
 
     #query database for route, day of week and 5 minutes before and after selected time
     #journeys = m.GpsNov.objects.raw('SELECT * FROM gps_nov WHERE Route = %s and day = %s and TIME(Departure) between %s and %s and Weather = %s' , [in_route, strweek_day, mintime.time(), maxtime.time(), in_weather])
@@ -77,12 +93,34 @@ def getResult(request):
     #average = sum/cnt
     #averagemins = average/60
     #averagemins = str(round(averagemins, 2))
+
+    with open('csvfile.csv', 'w') as c:
+         writer = csv.writer(c)     
+         writer.writerow(["Day","ScheduledDepart","StopID","Weather (1 = W, 0 = D)"])
+         writer.writerow([str(strweek_day),time,str(in_from),str(in_weather)])
+         writer.writerow([str(strweek_day),time,str(in_to),str(in_weather)])
     
-    #filename = 'first/static/first/RFBR1_v0.1.mdl'
-    #RFMODEL = joblib.load(filename)
-    #test = pd.read_csv('first/static/first/SingleTest.csv')
-    #pred = RFMODEL.predict(test)
-    #print("this is a prediction TEST", pred)
+
+    
+    filename = "first/static/first/RFBR" + in_route + "_v0.1.mdl"
+    RFMODEL = joblib.load(filename)
+    csv1 = pd.read_csv('csvfile.csv')
+    
+    pred = RFMODEL.predict(csv1)
+    print("this is a prediction TEST", pred)
+   
+    
+    depart = str(pred[0]).split('.')
+    arr = str(pred[1]).split('.')
+    print("this isT1212")
+    dephr = depart[0]
+    depmin = depart[1]
+    arrhr = arr[0]
+    arrmin = arr[1]
+    print("this isT12dddd12")
+    depart = dephr + ":" + str(int(depmin)*60)
+    arr = arrhr + ":" + str(int(arrmin)*60)
+   
     
     
     #filename = 'first/static/first/final.json'
@@ -94,12 +132,10 @@ def getResult(request):
     #test = pd.read_csv('\\...path\SingleTest.csv')
     #pred = RFmodel.predict(test)
     #array([ 3749.82557749])
-    context = {
-        "journeys": journeys,
-        
-        }
+    
 
-    return HttpResponse(json.dumps({ 'average': averagemins}), content_type='application/json')
+
+    return HttpResponse(json.dumps({ 'depart': depart, 'arr': arr}), content_type='application/json')
 
 
 def getStops(request):

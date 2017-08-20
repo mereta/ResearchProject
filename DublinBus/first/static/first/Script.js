@@ -21,8 +21,9 @@ function load() {
            var parsedObj = JSON.parse(xmlhttp.responseText);
         // This function is defined below and deals with the JSON data parsed from the file. 
            // alert(parsedObj);
-            var average = parsedObj.average;
-            document.getElementById("average").innerHTML = "<h3> Total expected time for route " + travelroute + ":<br>" + average + " minutes.</h3>";
+            var depart = parsedObj.depart;
+            var arr = parsedObj.arr;
+            document.getElementById("average").innerHTML = "<h3> Expected Depart time: " + depart + "<br>Expected Arrival Time:" + arr + " minutes.</h3>";
         }
     };
 
