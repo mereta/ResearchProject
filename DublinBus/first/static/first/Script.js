@@ -5,7 +5,7 @@ function load() {
     var xmlhttpweather = new XMLHttpRequest();
       var urlweather = "http://api.openweathermap.org/data/2.5/forecast/daily?q=Dublin,IE&cnt=16&units=metric&APPID=6664879b703f55def17f2918f6e6c711";
 
-                  
+       //get weather data
       xmlhttpweather.onreadystatechange = function () {
           if (xmlhttpweather.readyState == 4 && xmlhttpweather.status == 200) {
           
@@ -21,7 +21,7 @@ function load() {
       
       
       
-	//get daily JSON file code ref: Practical Solutions class notes
+	//get daily JSON file code
     var xmlhttp = new XMLHttpRequest();
     var travelroute = document.getElementById('item_id').value;
     var weather = ret
@@ -37,7 +37,7 @@ function load() {
 
 	var url =  "getResult?travelroute="+ travelroute + "&traveltime=" + encodeURIComponent(traveltime) + "&weather=" + weather + "&direction=" + direction + "&from=" + from_stop + "&to=" + to_stop;
 
-                
+   // Get routes
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         
@@ -61,7 +61,7 @@ function load() {
 
 
 
-
+// get map markers
 function mapmarker() {
                    
 //get daily JSON file code ref: Practical Solutions class notes
@@ -90,23 +90,23 @@ function mapmarker() {
 
 
 
-
+// get weather
 function getWeather(obj) {
 	
-
+	//get travel time
 	var dt = new Date(); 
 	var traveltime = document.getElementById('traveltime').value;
 	var spacesplit = traveltime.split(" ");
 	var hypsplit = spacesplit[0].split("-");
-	
 	var dt1 = new Date(hypsplit[0], hypsplit[1]-1, hypsplit[2]); 
 	var one_day=1000*60*60*24;
 	var result = Math.ceil((dt1.getTime()-dt.getTime())/(one_day));
 	
 
-    
+    //ensure travel time is within next 16 days
     if(result < 15){
     	var dailyWeather = obj.list;
+    	//get weather for day - X days from today
         var weatherid = dailyWeather[result].weather[0].id;
         if(weatherid > 799){
       	     	
@@ -128,19 +128,6 @@ function getWeather(obj) {
 }
 
 
-
-function timeConverter(UNIX_timestamp){
-	  var a = new Date(UNIX_timestamp * 1000);
-	  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-	  var year = a.getFullYear();
-	  var month = months[a.getMonth()];
-	  var date = a.getDate();
-	  var hour = a.getHours();
-	  var min = a.getMinutes();
-	  var sec = a.getSeconds();
-	  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
-	  return time;
-	}
 
 
 function getDate(timestamp) { // code ref = https://gist.github.com/kmaida/6045266

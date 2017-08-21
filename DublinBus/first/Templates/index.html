@@ -172,18 +172,11 @@
                         timetb.setAttribute('target', "_blank")
                         document.getElementById("timetable").style.display = "block";
                         
-
-
                         var from = document.getElementById("fromSelect");
-                        //var to = document.getElementById("toSelect");
                         var defaultfrom = document.createElement("option");
-                        //var defaultto = document.createElement("option");       
                         defaultfrom.text = "From:";
                         defaultfrom.value = 0;
-                        //defaultto.text = "To:";
-                        //defaultto.value = 0;
                         from.add(defaultfrom);
-                        //to.add(defaultto);
 
                         var map = new google.maps.Map(document.getElementById('map-canvas'), {
                             center: {
@@ -203,8 +196,6 @@
                                 content: contentString
                             });
 
-
-
                             var marker = new google.maps.Marker({
                                 map: map,
                                 infowindow: myinfo,
@@ -215,37 +206,26 @@
 
                             });
 
-
-
                             google.maps.event.addListener(marker, 'click', function() {
                                 this.infowindow.open(map, this);
                             });
 
                             var optionfrom = document.createElement("option");
-                            //var optionto = document.createElement("option");
+                         
                             optionfrom.text = loc;
                             optionfrom.value = pk;
-                            //optionto.text = loc;
-                            //optionto.value = pk;
+               
 
                             from.add(optionfrom);
-                            //to.add(optionto);
-                            //document.getElementById("toSelect").style.display = "block";
+
                             document.getElementById("fromSelect").style.display = "block";
-
-
-
-
                         }
-
 
                     }
                 };
 
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
-
-
 
 
             });
@@ -263,54 +243,35 @@
 
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-
-
-                        //removeOptions(document.getElementById("fromSelect"));
                         removeOptions(document.getElementById("toSelect"));
 
                         //Parse the JSON data to a JavaScript variable
                         var parsedObj = xmlhttp.responseText;
-
                         var b = JSON.parse(parsedObj);
-
-                        //var from = document.getElementById("fromSelect");
                         var to = document.getElementById("toSelect");
-                        //var defaultfrom = document.createElement("option");
                         var defaultto = document.createElement("option");       
-                        //defaultfrom.text = "From:";
-                        //defaultfrom.value = 0;
                         defaultto.text = "To:";
                         defaultto.value = 0;
-                        //from.add(defaultfrom);
                         to.add(defaultto);
 
 
                         for (var i = 0; i < b.length; i++){
                             var pk = (b[i].pk);
                             var loc = (b[i]["fields"].location);
-
-                            //var optionfrom = document.createElement("option");
                             var optionto = document.createElement("option");
-                            //optionfrom.text = loc;
-                            //optionfrom.value = pk;
                             optionto.text = loc;
                             optionto.value = pk;
 
-                            //from.add(optionfrom);
+
                             to.add(optionto);
                             document.getElementById("toSelect").style.display = "block";
-                            //document.getElementById("fromSelect").style.display = "block";
                         }
-
 
                     }
                 };
 
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
-
-
-
 
             });
 
@@ -356,9 +317,6 @@
                                 stopover: false
                             });
 
-
-
-
                             var marker = new google.maps.Marker({
                                 map: map,
                                 infowindow: myinfo,
@@ -368,8 +326,6 @@
                                 }
 
                             });
-
-
 
                             google.maps.event.addListener(marker, 'click', function() {
                                 this.infowindow.open(map, this);
@@ -403,18 +359,12 @@
                                 alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
                             }
                         });
-                        
-                        
-                        
+  
                     }
                 };
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
             });
-
-
-
-
 
             function removeOptions(selectbox)
             {
@@ -426,7 +376,6 @@
             }
 
         </script> 
-        <!-- </div> -->
 
         <footer><p>Sync or Swim</p></footer>
         </div>
