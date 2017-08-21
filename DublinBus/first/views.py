@@ -93,6 +93,7 @@ def getResult(request):
     #average = sum/cnt
     #averagemins = average/60
     #averagemins = str(round(averagemins, 2))
+    print("WEEKDAY", strweek_day)
 
     with open('csvfile.csv', 'w') as c:
          writer = csv.writer(c)     
@@ -105,23 +106,23 @@ def getResult(request):
     filename = "first/static/first/RFBR" + in_route + "_v0.1.mdl"
     RFMODEL = joblib.load(filename)
     csv1 = pd.read_csv('csvfile.csv')
+    csv2 = [[str(strweek_day), time, str(in_from), str(in_weather)],[str(strweek_day), time, str(in_to), str(in_weather)]]
     
-    pred = RFMODEL.predict(csv1)
-    print("this is a prediction TEST", pred)
+    pred = RFMODEL.predict(csv2)
    
     
     depart = str(pred[0]).split('.')
     arr = str(pred[1]).split('.')
-    print("this isT1212")
+   
     dephr = depart[0]
     depmin = depart[1]
     arrhr = arr[0]
     arrmin = arr[1]
-    print("this isT12dddd12")
+    
     depart = dephr + ":" + str(int(depmin)*60)
     arr = arrhr + ":" + str(int(arrmin)*60)
    
-    
+    depart[0:3]
     
     #filename = 'first/static/first/final.json'
     filename = open("first/static/first/final.json","r") 
@@ -135,7 +136,7 @@ def getResult(request):
     
 
 
-    return HttpResponse(json.dumps({ 'depart': depart, 'arr': arr}), content_type='application/json')
+    return HttpResponse(json.dumps({ 'depart': depart[0:5], 'arr': arr[0:5]}), content_type='application/json')
 
 
 def getStops(request):
@@ -158,7 +159,7 @@ def getStops(request):
     xml_serializer.serialize(stops)
     data = xml_serializer.getvalue()    
     
-    print(data) 
+    #print(data) 
     return HttpResponse(data, content_type='application/json')
 
 def getToStops(request):
@@ -182,7 +183,7 @@ def getToStops(request):
     xml_serializer.serialize(stops)
     data = xml_serializer.getvalue()    
     
-    print(data) 
+    #print(data) 
     print("test from stop var", in_from)
     return HttpResponse(data, content_type='application/json')
 
@@ -208,7 +209,7 @@ def getStopInt(request):
     xml_serializer.serialize(stops)
     data = xml_serializer.getvalue()    
     
-    print(data) 
+    #print(data) 
     print("test to stop var", in_to)
     return HttpResponse(data, content_type='application/json')
 

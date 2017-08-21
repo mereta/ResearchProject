@@ -35,16 +35,21 @@
             <div class="container">
                 <!-- <div id="headerimage">-->
                 <div id=head>
-                    <h1>Dublin Bus Journey Calculator</h1>
+                    <h1>Dublin Bus Journey Time Predictor</h1>
                     <h3> Choose your preferred journey options below.</h3>
+                
+                    <h4></h4>
+                    
                 </div>
 
                 <!--<div id="content"> -->
                 <!--<div id="leftcontent"> -->
                 <div class="row">
-                    <div class="col-sm-6">
-                        <div id="leftcontent">
-                            <h2>Journey Details</h2>
+               
+                
+                    <div class="col-lg-4">
+                        <div id="leftcontent3">
+                            <h3>Journey Details</h3>
 
                             <br>
                             <div class="dropdown">
@@ -55,7 +60,7 @@
                                 </select>
 
                             </div>
-                            <br><br>
+                            <br>
 
                             <div class="dropdown">
                                 <select class="item_id" id="item_id" name="item_id" label="Route">
@@ -65,23 +70,18 @@
                                     {% endfor %}
                                 </select>
                             </div>
+                            <br>
+                            
 
                             <select id="fromSelect" name="fromSelect" class="fromSelect" style="display:none;">  </select>
+                            <br>
                             <select id="toSelect" name="toSelect" class="toSelect" style="display:none;">     </select>
-                            <br><br>
+                            <br>
 
                             <input id="traveltime" value="Select Date & Time"></input>
                         <script >flatpickr("#traveltime", {enableTime: true});</script>  
                         <br><br>
-                        <div class="dropdown">
-                            <select id="weather_id" name="weather_id">
-                                <option value="Weather">Weather</option>
-                                <option value="Dry">Dry</option>
-                                <option value="Wet">Wet</option>
-                            </select>
-
-                        </div>
-                        <br><br>
+                      
 
                         <button id="btnsubmit" onclick="load();return false">Submit</button>
 
@@ -91,10 +91,23 @@
 
                     </div>
                 </div>
-
-                <div class="col-sm-6">
+                 
+                <div class="col-lg-4">
                     <div id="leftcontent1">
                         <div class="box" id="currentWeather"></div>
+                    </div>
+                </div>
+                
+                 <div class="col-lg-4">
+                    <div id="leftcontent2">
+                        <div class="box" id="description"></div>
+                        <p><h4><b>Please note, we check the weather for up to 16 days.<br><br>
+                         After that we assume the weather conditions will be dry. <br><br>
+                         Also due to the nature of weather, predictions for the next 5 days
+                         will be more accurate than predictions after 5 days.<br><br>
+                         Alternative routes may be displayed on the map if available.</b></h4></p><br>
+
+                        
                     </div>
                 </div>
             </div>
@@ -256,7 +269,7 @@
                         var defaultto = document.createElement("option");       
                         //defaultfrom.text = "From:";
                         //defaultfrom.value = 0;
-                        defaultto.text = "TO";
+                        defaultto.text = "To:";
                         defaultto.value = 0;
                         //from.add(defaultfrom);
                         to.add(defaultto);
@@ -355,7 +368,6 @@
 
                         }
                     
-                        var balh = "";
  						var directionsDisplay;
   						var directionsService = new google.maps.DirectionsService();
    						directionsDisplay = new google.maps.DirectionsRenderer();
