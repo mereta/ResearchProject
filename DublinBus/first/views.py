@@ -66,34 +66,8 @@ def getResult(request):
     print(str(strtimemin))
     print(time)
     
-    #get time date object
-    #time = datetime.datetime.strptime(in_time, '%Y-%m-%d %H:%M')
-   
-  
-    # create date difference to give us two times - one 5 mins before selected time, one 5 minutes after.
-    # this time frame will be queried
-    
-    #diff = timedelta(minutes=5)
-    #mintime = time - diff
-    #maxtime = time + diff
 
-    #query database for route, day of week and 5 minutes before and after selected time
-    #journeys = m.GpsNov.objects.raw('SELECT * FROM gps_nov WHERE Route = %s and day = %s and TIME(Departure) between %s and %s and Weather = %s' , [in_route, strweek_day, mintime.time(), maxtime.time(), in_weather])
-
-    #cnt = 0
-    #sum = 0
-    #print(journeys)
-    #total jourey duration and get average by dividing number of journeys
-    #for x in journeys:
-      # sum += x.duration
-       #cnt += 1
-       #print(x.id, x.route, x.day, x.weather, x.duration, x.departure, x.arrival)
-        
-    # get average minutes
-    #average = sum/cnt
-    #averagemins = average/60
-    #averagemins = str(round(averagemins, 2))
-    print("WEEKDAY", strweek_day)
+    #print("WEEKDAY test", strweek_day)
 
     with open('csvfile.csv', 'w') as c:
          writer = csv.writer(c)     
@@ -168,7 +142,7 @@ def getToStops(request):
     in_route=request.GET.get('travelroute')
     in_direction=request.GET.get('direction')
     in_from=request.GET.get('from')
-  #query database for route, day of week and 5 minutes before and after selected time
+    #query database for route, day of week and 5 minutes before and after selected time
     #stops = m.MapStops.objects.raw('SELECT stop_id, location, Map_stop_id FROM map_stops WHERE Route = %s' , [in_route])
     retstr = ""
     
@@ -184,7 +158,7 @@ def getToStops(request):
     data = xml_serializer.getvalue()    
     
     #print(data) 
-    print("test from stop var", in_from)
+    
     return HttpResponse(data, content_type='application/json')
 
 
@@ -210,6 +184,6 @@ def getStopInt(request):
     data = xml_serializer.getvalue()    
     
     #print(data) 
-    print("test to stop var", in_to)
+    
     return HttpResponse(data, content_type='application/json')
 

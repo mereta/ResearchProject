@@ -71,12 +71,11 @@
                                 </select>
                             </div>
                             <br>
-                            
-
                             <select id="fromSelect" name="fromSelect" class="fromSelect" style="display:none;">  </select>
                             <br>
                             <select id="toSelect" name="toSelect" class="toSelect" style="display:none;">     </select>
                             <br>
+                            <a id="timetable" name="timetable" class="timetable" style="display:none;">View Timetable </a>
 
                             <input id="traveltime" value="Select Date & Time"></input>
                         <script >flatpickr("#traveltime", {enableTime: true});</script>  
@@ -105,7 +104,10 @@
                          After that we assume the weather conditions will be dry. <br><br>
                          Also due to the nature of weather, predictions for the next 5 days
                          will be more accurate than predictions after 5 days.<br><br>
-                         Alternative routes may be displayed on the map if available.</b></h4></p><br>
+                         Alternative routes may be displayed on the map if available.
+                         </b></h4></p><br>
+                         
+                         
 
                         
                     </div>
@@ -162,6 +164,14 @@
                         var parsedObj = xmlhttp.responseText;
 
                         var b = JSON.parse(parsedObj);
+                        
+                        var timetb = document.getElementById("timetable");
+                        
+                        deftimetbhf = "https://www.dublinbus.ie/Your-Journey1/Timetables/All-Timetables/" + travelroute + "/";
+                        timetb.setAttribute('href', deftimetbhf)
+                        timetb.setAttribute('target', "_blank")
+                        document.getElementById("timetable").style.display = "block";
+                        
 
 
                         var from = document.getElementById("fromSelect");
