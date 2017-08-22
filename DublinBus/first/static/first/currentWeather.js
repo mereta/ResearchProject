@@ -18,15 +18,17 @@ function iconSrc(iconName) {
 
 function displayWeather(responseJson) {
     let div = document.getElementById("currentWeather");
-    div.innerHTML = "<h3>Current Weather</h3>";
+    div.innerHTML = "<h3><b>Current Weather</b></h3>";
 
     let img = document.createElement("img");
     img.src = iconSrc(responseJson.weather[0].icon);
     img.id = "weatherIcon";
     div.appendChild(img);
 
-    div.innerHTML += "<br>" + responseJson.weather[0].description + "<br><br>";
-    div.innerHTML += responseJson.main.temp + "°C";
+    div.innerHTML += "<br><b>Condition:  </b>" + responseJson.weather[0].description + "<br><br>";
+    div.innerHTML += "<b>Temperature:  </b>" + responseJson.main.temp + " °C <br>";
+    div.innerHTML += "<b>Wind Speed:  </b>" + responseJson.wind.speed + " m/s <br>";
+    div.innerHTML += "<b>Humidity:  </b>" + responseJson.main.humidity + " %<br>";
 }
 
 window.onload = function () {

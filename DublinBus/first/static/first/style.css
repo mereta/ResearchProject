@@ -108,7 +108,7 @@ a:hover {
 #leftcontent2{ 
     float: left;
     font-size: 14px;
-    height: auto;
+    height: 310px;
     padding-left: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -144,8 +144,8 @@ a:hover {
 #leftcontent1{ 
     float: left;
     font-size: 20px;
-    height: auto;
-    /*width: 250px; */
+    height: 310px;
+    width: 350px; 
     padding-left: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -164,7 +164,7 @@ a:hover {
 
 	height:70px;
 	width: 70px;
-}
+	margin-left: 50px;
 
      
 #text{
